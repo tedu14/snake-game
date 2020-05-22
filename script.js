@@ -1,29 +1,44 @@
+'use strict'
 let canvas = document.getElementById('snake');
 let context = canvas.getContext('2d');
 let box = 32;
 let snake = [];
+let direction = 'right';
+let game = setInterval(initGame, 100);
+let food = {
+    x: randomPosition(),
+    y: randomPosition(),
+}
+
 
 snake[0] = {
     x: 8 * box,
     y: 8 * box,
 }
 
-let direction = 'right';
-
-let game = setInterval(initGame, 100);
-
 document.addEventListener('keydown', update);
 
+function randomPosition() {
+    return Math.floor(Math.random() * 15 + 1) * box;
+}
+
+function createBox(color, x, y, width, height) {
+    context.fillStyle = color;
+    context.fillRect(x, y, width, height);
+}
+
 function createBg() {
-    context.fillStyle = 'lightgreen';
-    context.fillRect(0, 0, 16 * box, 16 * box)
+    createBox('lightgreen', 0, 0, 16 * box, 16 * box);
 }
 
 function createSnake() {
     for (let i = 0; i < snake.length; i++) {
-        context.fillStyle = 'green';
-        context.fillRect(snake[i].x, snake[i].y, box, box);
+        createBox('green', snake[i].x, snake[i].y, box, box);
     }
+}
+
+function drawFruit() {
+    createBox('red', food.x, food.y, box, box);
 }
 
 function initGame() {
@@ -35,6 +50,7 @@ function initGame() {
 
     createBg();
     createSnake();
+    drawFruit();
 
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
