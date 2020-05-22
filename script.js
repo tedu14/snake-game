@@ -42,13 +42,19 @@ function drawFruit() {
 }
 
 function initGame() {
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
     delimitedbox();
     createBg();
     createSnake();
     drawFruit();
 
-    let snakeX = snake[0].x;
-    let snakeY = snake[0].y;
+    for (let i = 2; i < snake.length; i++) {
+        if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+            clearInterval(game);
+            alert('Game over')
+        }
+    }
 
     if (direction === 'right') snakeX += box;
     if (direction === 'left') snakeX -= box;
